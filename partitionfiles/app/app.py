@@ -66,7 +66,7 @@ st.markdown(
 
 st.write("### DBB Telefones - Particionamento de Arquivo")
 
-st.write( "Aplicativo que particiona um arquivo, com um limite de registros para cada arquivo, e com os registros agrupados por cliente." )
+st.write( "Aplicativo que particiona um arquivo, com um limite de registros para cada arquivo particionado, e com os registros agrupados por cliente." )
 
 opcoes = {
     " 10 Mil": 10000,
@@ -106,7 +106,7 @@ if label:
         # =========================================================
         # Execução
         # =========================================================
-        if st.button("Executar processo de particionamento do arquivo"):
+        if st.button("Executar processo de particionamento"):
 
             try:
                 # -----------------------------------------
