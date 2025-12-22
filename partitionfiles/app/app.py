@@ -12,7 +12,7 @@ from num2words import num2words
 
 st.set_page_config(
     page_title="DBB - Telefones",
-    layout="wide",
+    # layout="wide",
 )
 
 st.markdown(
