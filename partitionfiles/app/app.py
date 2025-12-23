@@ -89,9 +89,7 @@ label = st.selectbox(
 
 valor_numerico = opcoes[label]
 
-if label:
-    st.info(valor_numerico)
-                
+if label:                
     # =========================================================
     # Upload obrigatório do CSV
     # =========================================================
@@ -107,7 +105,6 @@ if label:
         # Execução
         # =========================================================
         if st.button("Executar processo de particionamento"):
-
             try:
                 # -----------------------------------------
                 # Leitura do CSV base
@@ -119,8 +116,38 @@ if label:
                 form = format(total_csv, ',').replace(',', '.')
                 st.success(f"Registros carregados da Base de Telefones: **{form}**    _({str(num2words(total_csv, lang="pt_BR")).title()})_")
 
+                # -----------------------------------------
+                # Particionamento do CSV base
+                # -----------------------------------------
+                with st.spinner("Particionando o arquivo CSV base..."):
+                    files_part = p.partition_files(df, valor_numerico)
                 
+                form = format(len(files_part), ',').replace(',', '.')
+                st.success(f"Total de arquivos particionados: **{form}**")
 
+                # -------------------------------------------------
+                # Criar ZIP em memória
+                # -------------------------------------------------
+                zip_buffer = BytesIO()
+
+                with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
+                    for item in files_part:
+                        zip_file.writestr(
+                            item["nome"],     # nome do arquivo dentro do ZIP
+                            item["arq"]       # conteúdo CSV (string)
+                        )
+
+                zip_buffer.seek(0)
+
+                # -------------------------------------------------
+                # Botão de download
+                # -------------------------------------------------
+                st.download_button(
+                    label="⬇️ Baixar arquivos particionados (ZIP)",
+                    data=zip_buffer,
+                    file_name=f"arquivos_particionados.zip",
+                    mime="application/zip"
+                )
             except Exception as e:
                 st.error("❌ Erro ao processar o arquivo")
                 st.exception(e)
