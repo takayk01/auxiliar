@@ -104,7 +104,7 @@ if label:
         # =========================================================
         # Execução
         # =========================================================
-        if st.button("Executar processo de particionamento"):
+        if st.button("Executar particionamento"):
             try:
                 # -----------------------------------------
                 # Leitura do CSV base
@@ -114,7 +114,7 @@ if label:
                     total_csv = df.shape[0]
                 
                 form = format(total_csv, ',').replace(',', '.')
-                st.success(f"Registros carregados da Base de Telefones: **{form}**    _({str(num2words(total_csv, lang="pt_BR")).title()})_")
+                st.success(f"Registros carregados da Base de Telefones: **{form}**")
 
                 # -----------------------------------------
                 # Particionamento do CSV base
